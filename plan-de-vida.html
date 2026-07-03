@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Vida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#100E0C;
+    --surface:#1A1714;
+    --surface-2:#221E19;
+    --line:rgba(237,232,225,.09);
+    --line-strong:rgba(237,232,225,.16);
+    --ink:#EDE8E1;
+    --muted:#A39B90;
+    --faint:#6B655D;
+    --ahorro:#7FCBA0;
+    --salud:#FF9B6A;
+    --trabajo:#7FB2FF;
+    --creatividad:#D08BFF;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    padding:clamp(20px,5vw,64px) clamp(16px,5vw,48px) 72px;
+    background-image:
+      radial-gradient(1100px 500px at 15% -5%, rgba(208,139,255,.06), transparent 60%),
+      radial-gradient(900px 480px at 95% 8%, rgba(127,178,255,.05), transparent 60%);
+  }
+
+  .wrap{max-width:1040px;margin:0 auto}
+
+  /* ---------- Cabecera ---------- */
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--faint);
+    margin-bottom:20px;
+  }
+
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:clamp(46px,11vw,110px);
+    line-height:.92;
+    letter-spacing:-.02em;
+    position:relative;
+    display:inline-block;
+    color:var(--ink);
+  }
+  h1 .glitch{position:relative;display:inline-block}
+  h1 .glitch::before,
+  h1 .glitch::after{
+    content:attr(data-text);
+    position:absolute;top:0;left:0;
+    width:100%;
+    opacity:.75;
+    pointer-events:none;
+  }
+  h1 .glitch::before{color:#5AE0FF;animation:shift-a 4.6s infinite steps(2,end)}
+  h1 .glitch::after{color:#FF4FA3;animation:shift-b 4.6s infinite steps(2,end)}
+  @keyframes shift-a{
+    0%,92%,100%{transform:translate(0,0);opacity:0}
+    93%{transform:translate(-3px,1px);opacity:.7}
+    96%{transform:translate(2px,-1px);opacity:.5}
+    98%{transform:translate(-1px,0);opacity:.6}
+  }
+  @keyframes shift-b{
+    0%,92%,100%{transform:translate(0,0);opacity:0}
+    93%{transform:translate(3px,-1px);opacity:.7}
+    96%{transform:translate(-2px,1px);opacity:.5}
+    98%{transform:translate(1px,0);opacity:.6}
+  }
+
+  .lede{
+    margin-top:26px;
+    max-width:52ch;
+    color:var(--muted);
+    font-size:clamp(15px,2vw,18px);
+  }
+  .lede strong{color:var(--ink);font-weight:600}
+
+  /* ---------- Principio base ---------- */
+  .principio{
+    margin:44px 0 8px;
+    border:1px solid var(--line-strong);
+    border-radius:14px;
+    padding:22px 26px;
+    background:linear-gradient(180deg,var(--surface),rgba(26,23,20,.4));
+    display:flex;
+    gap:18px;
+    align-items:baseline;
+    flex-wrap:wrap;
+  }
+  .principio .tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--faint);white-space:nowrap;
+  }
+  .principio p{font-size:clamp(15px,2.2vw,19px);color:var(--ink)}
+  .principio em{color:var(--creatividad);font-style:normal}
+
+  /* ---------- Rejilla de pilares ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+    margin-top:16px;
+  }
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+
+  .card{
+    --accent:var(--ink);
+    position:relative;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:28px 26px 26px;
+    background:var(--surface);
+    overflow:hidden;
+    transition:transform .25s ease,border-color .25s ease;
+  }
+  .card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:var(--accent);
+    box-shadow:0 0 22px var(--accent);
+    opacity:.9;
+  }
+  .card:hover{transform:translateY(-3px);border-color:var(--line-strong)}
+
+  .card--ahorro{--accent:var(--ahorro)}
+  .card--salud{--accent:var(--salud)}
+  .card--trabajo{--accent:var(--trabajo)}
+  .card--creatividad{--accent:var(--creatividad)}
+
+  .card .ch{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--faint);
+  }
+  .card h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:29px;
+    letter-spacing:-.01em;
+    margin:6px 0 14px;
+    color:var(--ink);
+  }
+  .map{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13.5px;
+    padding:9px 12px;
+    border-radius:9px;
+    background:var(--surface-2);
+    display:inline-flex;
+    gap:9px;align-items:center;
+    margin-bottom:18px;
+    color:var(--muted);
+  }
+  .map .arrow{color:var(--faint)}
+  .map .to{color:var(--accent);font-weight:500}
+
+  .acts{list-style:none;display:flex;flex-direction:column;gap:11px}
+  .acts li{
+    position:relative;
+    padding-left:20px;
+    font-size:14.5px;
+    color:#D9D3CA;
+  }
+  .acts li::before{
+    content:"";
+    position:absolute;left:0;top:8px;
+    width:7px;height:7px;border-radius:2px;
+    background:var(--accent);
+    transform:rotate(45deg);
+    opacity:.85;
+  }
+  .acts li strong{color:var(--ink);font-weight:600}
+
+  .signal{
+    margin-top:20px;padding-top:16px;
+    border-top:1px dashed var(--line-strong);
+    font-size:13px;color:var(--muted);
+    display:flex;gap:8px;align-items:baseline;
+  }
+  .signal .k{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);white-space:nowrap;
+  }
+
+  /* ---------- Venn ---------- */
+  .venn{margin-top:44px}
+  .venn h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;margin-bottom:8px;
+  }
+  .venn .sub{color:var(--muted);font-size:14.5px;max-width:58ch;margin-bottom:22px}
+  .venn-frame{
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:
+      radial-gradient(120% 120% at 50% 44%, rgba(255,255,255,.035), transparent 70%),
+      var(--surface);
+    padding:12px clamp(8px,3vw,26px);
+  }
+  .venn svg{display:block;width:100%;max-width:560px;height:auto;margin:0 auto;isolation:isolate}
+  .venn .lg{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px 30px;
+    margin-top:24px;
+  }
+  @media(max-width:640px){.venn .lg{grid-template-columns:1fr}}
+  .venn .lg .row{font-size:13.5px;color:#CFC9C0;display:flex;flex-direction:column;gap:3px}
+  .venn .lg .x{
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;
+    color:var(--ink);
+  }
+  .venn .lg .x b{font-weight:700}
+
+  /* ---------- Cadencia ---------- */
+  .cadencia{margin-top:40px}
+  .cadencia h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;margin-bottom:18px;
+  }
+  .rhythm{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  }
+  @media(max-width:640px){.rhythm{grid-template-columns:1fr}}
+  .beat{
+    border:1px solid var(--line);
+    border-radius:14px;padding:22px 22px 24px;
+    background:linear-gradient(180deg,var(--surface),transparent);
+  }
+  .beat .when{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink);margin-bottom:14px;
+    display:flex;align-items:center;gap:9px;
+  }
+  .beat .dot{width:8px;height:8px;border-radius:50%}
+  .beat.daily .dot{background:var(--salud)}
+  .beat.weekly .dot{background:var(--trabajo)}
+  .beat.monthly .dot{background:var(--ahorro)}
+  .beat ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .beat li{font-size:13.5px;color:#CFC9C0;padding-left:16px;position:relative}
+  .beat li::before{content:"›";position:absolute;left:0;color:var(--faint)}
+
+  /* ---------- Metas ---------- */
+  .metas{margin-top:44px}
+  .metas h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;margin-bottom:6px;
+  }
+  .metas .sub{color:var(--muted);font-size:14.5px;margin-bottom:22px}
+  .horizons{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:760px){.horizons{grid-template-columns:1fr}}
+  .hz{
+    border:1px solid var(--line);border-radius:14px;
+    padding:22px 22px 8px;
+    background:linear-gradient(180deg,var(--surface),transparent);
+  }
+  .hz .head{display:flex;align-items:baseline;gap:10px;margin-bottom:18px}
+  .hz .num{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:34px;letter-spacing:-.02em;color:var(--ink);line-height:1;
+  }
+  .hz .unit{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--faint);
+  }
+  .hz .phase{
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+    margin-left:auto;
+  }
+  .hz .goal{display:flex;gap:10px;padding:12px 0;border-top:1px solid var(--line);font-size:13px;color:#D2CCC3}
+  .hz .goal:first-of-type{border-top:none}
+  .hz .goal .sq{width:9px;height:9px;border-radius:2px;margin-top:5px;flex:none;transform:rotate(45deg)}
+  .sq-ahorro{background:var(--ahorro)}
+  .sq-salud{background:var(--salud)}
+  .sq-trabajo{background:var(--trabajo)}
+  .sq-creatividad{background:var(--creatividad)}
+  .hz .goal b{color:var(--ink);font-weight:600}
+
+  /* ---------- Consejos ---------- */
+  .tips{margin-top:44px}
+  .tips h3{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;margin-bottom:20px;
+  }
+  .tips ol{list-style:none;counter-reset:tip;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:720px){.tips ol{grid-template-columns:1fr}}
+  .tips li{
+    counter-increment:tip;
+    border:1px solid var(--line);border-radius:13px;
+    padding:18px 20px 18px 56px;position:relative;
+    background:var(--surface);
+    font-size:13.5px;color:#CFC9C0;
+  }
+  .tips li::before{
+    content:counter(tip,decimal-leading-zero);
+    position:absolute;left:18px;top:17px;
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;
+    color:var(--creatividad);
+  }
+  .tips li b{display:block;color:var(--ink);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;margin-bottom:4px}
+
+  footer{
+    margin-top:48px;text-align:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--faint);
+  }
+
+  /* ---------- Reveal ---------- */
+  .reveal{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+  .d1{animation-delay:.05s}.d2{animation-delay:.13s}.d3{animation-delay:.21s}
+  .d4{animation-delay:.29s}.d5{animation-delay:.37s}.d6{animation-delay:.45s}
+  .d7{animation-delay:.53s}.d8{animation-delay:.61s}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+
+  @media(prefers-reduced-motion:reduce){
+    .reveal{animation:none;opacity:1;transform:none}
+    h1 .glitch::before,h1 .glitch::after{animation:none;opacity:0}
+    .card{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow reveal d1">Sistema personal · v1</p>
+  <h1 class="reveal d1">Plan de <span class="glitch" data-text="Vida">Vida</span></h1>
+  <p class="lede reveal d2">Cuatro pilares, un sistema. La idea no es <em>lograr</em> los objetivos a fuerza de voluntad, sino convertir cada uno en algo que <strong>ya haces</strong> sin pensarlo. Tú ya escribiste el cómo al lado de cada meta — esto solo lo aterriza.</p>
+
+  <div class="principio reveal d2">
+    <span class="tag">Principio</span>
+    <p>Los objetivos son la dirección. El <em>método</em> es el motor. Un objetivo sin sistema es un deseo; un sistema sin objetivo es girar en círculos.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- AHORRO -->
+    <section class="card card--ahorro reveal d3">
+      <p class="ch">ch.01 — dinero</p>
+      <h2>Ahorro</h2>
+      <div class="map"><span>Ahorro</span><span class="arrow">→</span><span class="to">Hábito</span></div>
+      <ul class="acts">
+        <li><strong>Págate a ti primero.</strong> El día que entra dinero, aparta un % fijo antes de gastar. Automatizado, no a fin de mes.</li>
+        <li><strong>Fondo de emergencia primero.</strong> Meta inicial: 3–6 meses de tus gastos. Es tu colchón para negociar y arriesgar sin miedo.</li>
+        <li><strong>Un número que revisas.</strong> Entra / sale / queda. Una vez al mes, sin drama.</li>
+        <li><strong>Regla anti-impulso.</strong> En compras grandes, espera 48h antes de decidir.</li>
+      </ul>
+      <p class="signal"><span class="k">Señal ok</span> El ahorro sube cada mes, aunque sea poco.</p>
+    </section>
+
+    <!-- SALUD -->
+    <section class="card card--salud reveal d4">
+      <p class="ch">ch.02 — cuerpo</p>
+      <h2>Salud</h2>
+      <div class="map"><span>Salud</span><span class="arrow">→</span><span class="to">Hábitos</span></div>
+      <ul class="acts">
+        <li><strong>Muévete casi a diario.</strong> Empieza chico y encadénalo a algo que ya haces (café → estiramiento). Consistencia &gt; intensidad.</li>
+        <li><strong>Dormir a la misma hora.</strong> La palanca más grande de todas. Cuida el sueño y casi todo mejora.</li>
+        <li><strong>Comer bien la mayoría del tiempo</strong> e hidratarte. Sin extremos, sostenible.</li>
+        <li><strong>Pausas de pantalla.</strong> Eres dev: cuida ojos, cuello y espalda con descansos cortos.</li>
+      </ul>
+      <p class="signal"><span class="k">Señal ok</span> Energía estable durante el día, sin picos y caídas.</p>
+    </section>
+
+    <!-- TRABAJO -->
+    <section class="card card--trabajo reveal d5">
+      <p class="ch">ch.03 — carrera</p>
+      <h2>Trabajo</h2>
+      <div class="map"><span>Trabajo</span><span class="arrow">→</span><span class="to">Preparación</span></div>
+      <ul class="acts">
+        <li><strong>Portafolio vivo.</strong> Un proyecto estrella bien documentado dice más que diez a medias. Muéstralo funcionando.</li>
+        <li><strong>Ritmo constante, no ráfagas.</strong> Aplicaciones y estudio en dosis diarias pequeñas, no maratones de fin de semana.</li>
+        <li><strong>Prepárate para lo que el rol pide,</strong> no para todo. Enfoca según cada entrevista.</li>
+        <li><strong>Presencia y red.</strong> Contenido, LinkedIn, conversaciones. Explora freelance/consultoría como vía paralela.</li>
+      </ul>
+      <p class="signal"><span class="k">Señal ok</span> Entran entrevistas, no solo salen aplicaciones.</p>
+    </section>
+
+    <!-- CREATIVIDAD -->
+    <section class="card card--creatividad reveal d6">
+      <p class="ch">ch.04 — expresión</p>
+      <h2>Creatividad</h2>
+      <div class="map"><span>Creatividad</span><span class="arrow">→</span><span class="to">Creando</span></div>
+      <ul class="acts">
+        <li><strong>Envía pequeño y seguido.</strong> Proyectos rápidos y experimentales &gt; el gran proyecto perfecto que nunca sale.</li>
+        <li><strong>Bloque protegido.</strong> Un espacio fijo en la semana solo para crear, sin culpa ni pendientes.</li>
+        <li><strong>Termina y publica.</strong> Mejor hecho que perfecto. Lo terminado enseña; lo guardado no.</li>
+        <li><strong>Mezcla tus mundos.</strong> Código + imagen + sonido. Ahí está tu firma.</li>
+      </ul>
+      <p class="signal"><span class="k">Señal ok</span> Algo nuevo publicado cada mes.</p>
+    </section>
+
+  </div>
+
+  <!-- VENN -->
+  <div class="venn">
+    <h3 class="reveal d7">Dónde se cruzan</h3>
+    <p class="sub reveal d7">Ningún pilar vive solo. Lo mejor pasa en los solapes — ahí una vida deja de estar partida en cajas separadas y empieza a jalar en la misma dirección.</p>
+    <div class="venn-frame reveal d7">
+      <svg viewBox="0 0 460 340" role="img" aria-label="Diagrama de Venn de los cuatro pilares: Ahorro, Salud, Trabajo y Creatividad">
+        <g style="mix-blend-mode:screen">
+          <ellipse cx="175" cy="162" rx="122" ry="72" fill="#7FCBA0" fill-opacity="0.36" stroke="#7FCBA0" stroke-opacity="0.85" stroke-width="1.3" transform="rotate(-40 175 162)"/>
+          <ellipse cx="206" cy="136" rx="122" ry="72" fill="#FF9B6A" fill-opacity="0.36" stroke="#FF9B6A" stroke-opacity="0.85" stroke-width="1.3" transform="rotate(-40 206 136)"/>
+          <ellipse cx="254" cy="136" rx="122" ry="72" fill="#7FB2FF" fill-opacity="0.36" stroke="#7FB2FF" stroke-opacity="0.85" stroke-width="1.3" transform="rotate(40 254 136)"/>
+          <ellipse cx="285" cy="162" rx="122" ry="72" fill="#D08BFF" fill-opacity="0.36" stroke="#D08BFF" stroke-opacity="0.85" stroke-width="1.3" transform="rotate(40 285 162)"/>
+        </g>
+        <!-- etiquetas de pilares -->
+        <text x="34" y="300" fill="#7FCBA0" font-family="'JetBrains Mono',monospace" font-size="15" font-weight="700">Ahorro</text>
+        <text x="30" y="52" fill="#FF9B6A" font-family="'JetBrains Mono',monospace" font-size="15" font-weight="700">Salud</text>
+        <text x="356" y="52" fill="#7FB2FF" font-family="'JetBrains Mono',monospace" font-size="15" font-weight="700">Trabajo</text>
+        <text x="322" y="300" fill="#D08BFF" font-family="'JetBrains Mono',monospace" font-size="15" font-weight="700">Creatividad</text>
+        <!-- centro -->
+        <text x="230" y="150" text-anchor="middle" fill="#0E0C0A" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="700">VIDA</text>
+        <text x="230" y="164" text-anchor="middle" fill="#0E0C0A" font-family="'JetBrains Mono',monospace" font-size="10.5" font-weight="700">INTEGRADA</text>
+      </svg>
+    </div>
+    <div class="lg reveal d8">
+      <div class="row"><span class="x"><b style="color:#7FB2FF">Trabajo</b> ∩ <b style="color:#D08BFF">Creatividad</b></span>Tu firma: proyectos que son oficio y expresión a la vez.</div>
+      <div class="row"><span class="x"><b style="color:#FF9B6A">Salud</b> ∩ <b style="color:#D08BFF">Creatividad</b></span>Energía y cabeza clara: sin ellas no hay chispa para crear.</div>
+      <div class="row"><span class="x"><b style="color:#7FCBA0">Ahorro</b> ∩ <b style="color:#7FB2FF">Trabajo</b></span>Estabilidad que te da poder de elegir y de negociar.</div>
+      <div class="row"><span class="x"><b style="color:#7FCBA0">Ahorro</b> ∩ <b style="color:#D08BFF">Creatividad</b></span>Colchón para experimentar y arriesgar sin presión.</div>
+      <div class="row"><span class="x"><b style="color:#FF9B6A">Salud</b> ∩ <b style="color:#7FB2FF">Trabajo</b></span>Ritmo sostenible: rendir sin quemarte.</div>
+      <div class="row"><span class="x"><b>Los cuatro juntos</b></span>Una vida que no está partida en compartimentos.</div>
+    </div>
+  </div>
+
+  <!-- CADENCIA -->
+  <div class="cadencia">
+    <h3 class="reveal d7">Cómo se sostiene — la cadencia</h3>
+    <div class="rhythm">
+      <div class="beat daily reveal d7">
+        <div class="when"><span class="dot"></span>Cada día</div>
+        <ul>
+          <li>Mover el cuerpo</li>
+          <li>Dormir a la misma hora</li>
+          <li>Un paso en trabajo o en un proyecto</li>
+        </ul>
+      </div>
+      <div class="beat weekly reveal d8">
+        <div class="when"><span class="dot"></span>Cada semana</div>
+        <ul>
+          <li>Bloque creativo protegido</li>
+          <li>Avanzar aplicaciones / estudio</li>
+          <li>Planear los 7 días siguientes</li>
+        </ul>
+      </div>
+      <div class="beat monthly reveal d8">
+        <div class="when"><span class="dot"></span>Cada mes</div>
+        <ul>
+          <li>Revisar el ahorro (entra/sale/queda)</li>
+          <li>Publicar algo terminado</li>
+          <li>Ajustar el plan a lo real</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- METAS -->
+  <div class="metas">
+    <h3 class="reveal d7">Metas con fecha</h3>
+    <p class="sub reveal d7">Sin fecha, un objetivo es una intención. Estos son los hitos que te dicen si vas bien en cada frente.</p>
+    <div class="horizons">
+
+      <div class="hz reveal d7">
+        <div class="head"><span class="num">30</span><span class="unit">días</span><span class="phase">Arranque</span></div>
+        <div class="goal"><span class="sq sq-ahorro"></span><span>Define tu <b>% fijo</b> y automatiza la transferencia el día de pago.</span></div>
+        <div class="goal"><span class="sq sq-salud"></span><span>Fija una <b>hora de dormir</b> y muévete 3 veces por semana.</span></div>
+        <div class="goal"><span class="sq sq-trabajo"></span><span>Deja tu <b>proyecto estrella</b> documentado y publicado.</span></div>
+        <div class="goal"><span class="sq sq-creatividad"></span><span>Termina y publica <b>un proyecto pequeño</b>.</span></div>
+      </div>
+
+      <div class="hz reveal d8">
+        <div class="head"><span class="num">90</span><span class="unit">días</span><span class="phase">Tracción</span></div>
+        <div class="goal"><span class="sq sq-ahorro"></span><span>Tres meses seguidos <b>apartando sin tocarlo</b>.</span></div>
+        <div class="goal"><span class="sq sq-salud"></span><span>Movimiento casi diario y sueño estable, <b>ya sin pensarlo</b>.</span></div>
+        <div class="goal"><span class="sq sq-trabajo"></span><span>Ritmo constante con <b>entrevistas entrando</b>, no solo enviadas.</span></div>
+        <div class="goal"><span class="sq sq-creatividad"></span><span><b>Tres cosas publicadas</b>, una por mes.</span></div>
+      </div>
+
+      <div class="hz reveal d8">
+        <div class="head"><span class="num">12</span><span class="unit">meses</span><span class="phase">Resultado</span></div>
+        <div class="goal"><span class="sq sq-ahorro"></span><span><b>Fondo de emergencia</b> encaminado: varios meses de gastos.</span></div>
+        <div class="goal"><span class="sq sq-salud"></span><span>Energía estable como <b>norma</b>, no como excepción.</span></div>
+        <div class="goal"><span class="sq sq-trabajo"></span><span>Rol nuevo o <b>base sólida</b> de freelance/consultoría.</span></div>
+        <div class="goal"><span class="sq sq-creatividad"></span><span>Un <b>cuerpo de trabajo</b> reconociblemente tuyo.</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONSEJOS -->
+  <div class="tips">
+    <h3 class="reveal d7">Consejos para rendir mejor</h3>
+    <ol>
+      <li class="reveal d7"><b>Una cosa a la vez</b>No prendas los cuatro pilares de golpe. Un hábito ancla por mes; suma el siguiente cuando el anterior ya sea invisible.</li>
+      <li class="reveal d7"><b>Hazlo ridículamente pequeño</b>Empieza con 2 minutos. Primero la constancia, luego el volumen. Lo chico que se repite gana a lo grande que se abandona.</li>
+      <li class="reveal d8"><b>Encadénalo a algo que ya haces</b>Después del café, estiras. Al abrir la laptop, una aplicación. El hábito viejo dispara el nuevo.</li>
+      <li class="reveal d8"><b>Diseña el entorno</b>Quita fricción a lo que quieres hacer y agrégasela a lo que no. Es más confiable que la fuerza de voluntad.</li>
+      <li class="reveal d8"><b>No rompas la cadena</b>Cero días en blanco: aunque sea el 1%, haz algo. Un mal día no rompe el plan; abandonarlo sí.</li>
+      <li class="reveal d8"><b>Revisión semanal de 15 min</b>Qué funcionó, qué no, qué ajustas. Sin esto, el plan se despega de la realidad.</li>
+      <li class="reveal d8"><b>Descansa en serio</b>La recuperación es parte del rendimiento, no lo contrario. Dormir y desconectar es lo que te deja rendir mañana.</li>
+      <li class="reveal d8"><b>Mide lo mínimo</b>Un tracker simple basta. Lo que se mide mejora, pero no te ahogues en métricas.</li>
+    </ol>
+  </div>
+
+  <footer class="reveal d8">Empieza por una cosa · repite hasta que sea invisible</footer>
+
+</div>
+</body>
+</html>
